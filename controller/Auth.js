@@ -104,7 +104,7 @@ exports.login = async (req, res) => {
             httpOnly: true, // Not accessible via JavaScript
         };
 
-        // Send response
+        // Send cokkie as response
         res.cookie("token", token, options).status(200).json({
             success: true,
             token,

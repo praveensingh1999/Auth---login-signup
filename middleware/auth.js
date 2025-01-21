@@ -4,10 +4,11 @@ require("dotenv").config();
 exports.auth = (req, res, next) => {
     try {
         // extract jwt token
-        const token = req.body.token // req.cokkies.token;
+        const token = req.body.token || req.cookies.token || req.header("Authorization").replace("Bearer", "");
+        console.log(token);
         if (!token) {
             return res.status(401).json({
-                success: fail,
+                success: false,
                 message: 'Token Missing',
             });
         }
@@ -28,6 +29,7 @@ exports.auth = (req, res, next) => {
         next();
 
     } catch (error) {
+        console.log(error);
         return res.status(401).json({
             success: false,
             message: "Something went wroung, while verifying the token ",
@@ -37,8 +39,8 @@ exports.auth = (req, res, next) => {
 
 exports.isStudent = (req, res) => {
     try {
-        console.log(req.user.role);
-        if (req.user.role !== 'Student') {
+
+        if (req.user.role == 'Student') {
             return res.status(401).json({
                 success: false,
                 message: "this is protect route for student",
@@ -56,7 +58,7 @@ exports.isStudent = (req, res) => {
 
 exports.isAdmin = (req, res) => {
     try {
-        if (req.user.role !== 'Admin') {
+        if (req.user.role == 'Admin') {
             return res.status(401).json({
                 success: false,
                 message: "this is protect route for admin",

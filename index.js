@@ -7,6 +7,11 @@ const app = express();
 require("dotenv").config();
 const port = process.env.port || 3000; // it access port number in process object if not found then assign port number 3000
 
+//cookiePareser -> which is used to parse the cookie
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
+
 //MIDLEWARE TO PARSE JSON object
 app.use(express.json());
 
