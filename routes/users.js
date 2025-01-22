@@ -4,6 +4,7 @@ const router = express.Router();
 //import controller
 const { login, signup } = require("../controller/Auth");
 const { isStudent, auth, isAdmin } = require("../middleware/auth");
+const User = require("../models/User");
 
 
 
@@ -32,6 +33,29 @@ router.get("/admin", auth, isAdmin, (req, res) => {
         success: true,
         message: "Welcome to the Protected route for admin",
     })
+})
+
+router.get("/email", auth, async (req, res) => {
+
+    try {
+        const id = req.user.id;
+        const user = await User.findById(id);
+
+        res.status(200).json({
+            success: true,
+            user: user,
+            message: `data fetched successfully`,
+        })
+
+
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: `Internal server error`,
+        })
+
+    }
 })
 
 //export
